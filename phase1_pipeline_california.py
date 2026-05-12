@@ -1,3 +1,16 @@
+"""
+Décision de pipeline : SPLIT AVANT FIT du scaler.
+
+Raison : si on fitte le StandardScaler sur X entier avant le split,
+les statistiques (mean, std) du test set "fuient" dans le scaler,
+ce qui fausse l'évaluation finale (data leakage). Le bon réflexe :
+    1) split train/val/test
+    2) fit scaler sur X_train UNIQUEMENT
+    3) transform val et test avec ce scaler déjà fitté
+
+Vérification numérique de cette décision en fin de script (bloc edge case).
+"""
+
 import numpy as np
 from sklearn.datasets import fetch_california_housing
 from sklearn.model_selection import train_test_split

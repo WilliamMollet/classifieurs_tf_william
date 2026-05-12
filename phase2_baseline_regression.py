@@ -1,3 +1,20 @@
+"""
+Note sur l'absence de sigmoid en sortie :
+    Une variante "tentante" ajouterait activation='sigmoid' à la couche de sortie.
+    Le code tournerait, la loss descendrait, mais le modèle serait inutilisable :
+    sigmoid borne la sortie dans [0, 1], or les prix médians de Californie vont
+    jusqu'à ~5 (en centaines de milliers de $). Le réseau ne pourrait jamais
+    prédire au-delà de 1 — MAE et MSE seraient artificiellement plafonnées.
+    Pour une régression à cible non bornée, on laisse la couche de sortie LINÉAIRE
+    (aucune activation).
+
+Note sur le choix MSE comme loss et MAE comme métrique :
+    - MSE pénalise fort les grosses erreurs (carré) → guide l'optimiseur à les éviter.
+    - MAE est plus lisible : 0.6 = 60 000 $ d'erreur moyenne.
+    Les deux coexistent : MSE pour optimiser, MAE pour interpréter.
+
+"""
+
 import os
 
 import matplotlib.pyplot as plt
